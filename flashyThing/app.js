@@ -37,7 +37,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-var spawn = require('child_process').spawn,
+/*var spawn = require('child_process').spawn,
     child = null;
     child = spawn("ffmpeg", [
       "-i", "rtsp://admin:UUnv9njxg123@10.10.10.3:554/cam/realmonitor?channel=1&subtype=0",
@@ -61,7 +61,7 @@ stream = new Stream({
     "-map": "0",
   }
 })
-
+*/
 var five = require("johnny-five"),
     board = new five.Board();
 
