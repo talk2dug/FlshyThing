@@ -1,5 +1,6 @@
-
-
+var five = require("johnny-five")
+var board = new five.Board();
+    
 var socket_io = require('socket.io');
 
 var io = socket_io();
@@ -9,16 +10,17 @@ var os = require('os');
 var ifaces = os.networkInterfaces();
 
 require('events').EventEmitter.prototype._maxListeners = 100;
-var five = require("johnny-five"),
-    board = new five.Board();
-    var piezo = new five.Piezo(2);
 
-    // Injects the piezo into the repl
-    board.repl.inject({
-      piezo: piezo
-    });
-    var led = new five.Led(12);
+  
 board.on("ready", function() {
+  var piezo = new five.Piezo(2);
+  var led = new five.Led(12);
+  // Injects the piezo into the repl
+  board.repl.inject({
+    piezo: piezo,
+    led: led
+  });
+  
   // Create an Led on pin 13
  /* 
 
@@ -55,14 +57,7 @@ board.on("ready", function() {
   });
 
   // Plays the same song with a string representation
-  piezo.play({
-    // song is composed by a string of notes
-    // a default beat is set, and the default octave is used
-    // any invalid note is read as "no note"
-    song: "C D F D A - A A A A G G G G - - C D F D G - G G G G F F F F - -",
-    beats: 1 / 4,
-    tempo: 100
-  });
+  
 */
 
 var motion = new five.Motion(11);
@@ -76,12 +71,14 @@ var motion = new five.Motion(11);
   // proximal area is disrupted, generally by some form of movement
   motion.on("motionstart", function() {
     console.log("motionstart");
+    io.emit("motion", 'motion')
   });
 
   // "motionend" events are fired following a "motionstart" event
   // when no movement has occurred in X ms
   motion.on("motionend", function() {
     console.log("motionend");
+    io.emit("motionend", 'motionend')
   });
 
   // "data" events are fired at the interval set in opts.freq
@@ -90,7 +87,7 @@ var motion = new five.Motion(11);
   // motion.on("data", function(data) {
   //   console.log(data);
   // });
-});
+
 
 
 //This is the function that initiates the downloading of the files from the NVR
@@ -105,9 +102,9 @@ io.on("connection", function(socket) {
 
     socket.on('action', function(data) {
         switch (data) {
-            case 'strobe':
-                led.strobe();
-
+            case 'lightsOn':
+              led.on()
+                console.log(data)
                     break;
                 
                 case 'alarm':
@@ -115,13 +112,13 @@ io.on("connection", function(socket) {
                         // song is composed by a string of notes
                         // a default beat is set, and the default octave is used
                         // any invalid note is read as "no note"
-                        song: "C D F D A - A A A A G G G G - - C D F D G - G G G G F F F F - -",
+                        song: "C D F D A ",
                         beats: 1 / 4,
                         tempo: 100
                       });
                     break;
-                case 'endCall':
-                    
+                case 'lightsOff':
+                  led.off();
 
                     break;
                 case 'download':
@@ -132,6 +129,7 @@ io.on("connection", function(socket) {
         }
     })
   
+});
 });
 socketApi.io = io;
 
