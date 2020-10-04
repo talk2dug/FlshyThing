@@ -21,7 +21,7 @@ console.log("MOTION")
  mainServer.on('motionend', function(data) {
   $('#motion').html("")
 console.log("MOTION END")
-
+ 
 
  })
  mainServer.on('cameraAlarm', function(data) {
