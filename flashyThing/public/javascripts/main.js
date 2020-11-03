@@ -1,4 +1,12 @@
-var buttons = "<button type='button' class='btn btn-primary'>Lights On</button>"+
+var buttons = "<form>"+
+"<div class='form-group'>"+
+  "<label for='formGroupExampleInput'>Say This</label>"+
+  "<input type='text' class='form-control' id='saythis' placeholder='Type here to speak'>"+
+"</div>"+
+"</form>"+
+"<button type='button' class='btn btn-warning'>Speak</button>"+
+
+"<button type='button' class='btn btn-primary'>Lights On</button>"+
 "<button type='button' class='btn btn-secondary'>Lights Off</button>"+
 "<button type='button' class='btn btn-success'>Success</button>"+
 "<button type='button' class='btn btn-danger'>Danger</button>"
@@ -57,5 +65,9 @@ setTimeout(() => {
         $('.btn-danger').on('click', function(event) {
           event.preventDefault(); // To prevent following the link (optional)
           mainServer.emit('action', "alarm");
+        });
+        $('.btn-warning').on('click', function(event) {
+          event.preventDefault(); // To prevent following the link (optional)
+          mainServer.emit('speak', $('#saythis').val());
         });
     })

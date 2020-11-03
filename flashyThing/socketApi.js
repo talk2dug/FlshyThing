@@ -91,15 +91,36 @@ var motion = new five.Motion(11);
 
 
 //This is the function that initiates the downloading of the files from the NVR
+var exec = require('child_process').exec;
+
+function speak(words){
+  exec(words , function(error, stdout, stderr) {
+    if (error){
+      console.log(error)
+    }
+    if (!error){
+      console.log(stdout)
+    }
+  
+  })
 
 
-
+}
 io.on("connection", function(socket) {
     var datestamp = "";
     Object.keys(ifaces).forEach(function(ifname) {
         var alias = 0;
         
     });
+    socket.on('speak', function(data) {
+      console.log(data)
+      console.log(data.length)
+      var toSay = "espeak  '" + data +" '"
+      if(toSay.length > data.length){
+      speak(toSay)
+    }
+    })
+
 
     socket.on('action', function(data) {
         switch (data) {
