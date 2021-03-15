@@ -53,7 +53,11 @@ setTimeout(() => {
 
 
         mainServer.emit('streamCam', 1);
-
+        $('.btn-success').on('click', function(event) {
+          console.log(event)
+          event.preventDefault(); // To prevent following the link (optional)
+          mainServer.emit('action', "playFile");
+        });
         $('.btn-primary').on('click', function(event) {
           event.preventDefault(); // To prevent following the link (optional)
           mainServer.emit('action', "lightsOn");
