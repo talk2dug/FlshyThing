@@ -28,7 +28,7 @@ var panspeed = 4;
 const Http = new XMLHttpRequest();
 var socket = io();
 var mainServer = io('//192.168.196.113:3000/');
-
+//
 var mainLayOutHTML = "<div class='container mainContainer'>"+
                         "<div class='row'>"+
                           "<div class='col-5 col-md-5 customBox topRow'><h1>Shreveport LA Crime Camera</h1></div>"+

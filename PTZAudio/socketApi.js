@@ -37,7 +37,7 @@ function checkDriveMounting(){
         
     }
     else{
-      
+      //
         const ls = spawn("mount", ["/dev/sdb1", "/home/pi/PTZAudio/public/videos/"]);
         ls.stdout.on("data", data => {
             
